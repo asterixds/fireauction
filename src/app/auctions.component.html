@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-6" well>
+        <ul class="list-group">
+            <li *ngFor="let auction of auctions | async" class="list-group-item" [class.active]="selectedAuction && (selectedAuction.$key == auction.$key)" (click)="select(auction)">
+                <span class="media-left">
+                    <img class="media-object thumbnail" src="http://lorempixel.com/80/80/technics/{{auction.prodId}}" alt="...">
+                    <div class="media-body">
+                        <h4 class="list-group-item-heading">{{auction.title}}</h4>
+                        £ {{ auction.startingBid }}
+                    </div>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <!-- using a template driven form. in a real application, this would be in its own component -->
+    <div class="col-md-6" well>
+        <div *ngIf="selectedAuction && user" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ selectedAuction.title }}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-group" (submit)="selectedAuction.bids.push({userid:user.uid,price:newBid.value});newBid.value=''">
+                    <label for="newBid">New bid: </label>
+                    <input  id="newBid"  #newBid class="form-control" placeholder="10.00"  required>
+                </form>
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let bid of selectedAuction.bids  | async">
+                        bid: {{bid.price}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div *ngIf="!user" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Please login to bid for this item</h3>
+            </div>
+        </div>
+    </div>
+</div>

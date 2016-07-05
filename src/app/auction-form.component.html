@@ -1,0 +1,37 @@
+<h1>{{ auction.title }}</h1>
+<div class="row">
+    <div class="col-md-6 well">
+        <form [ngFormModel]="form" (ngSubmit)="save()">
+            <fieldset>
+                <legend>
+                    New Auction
+                </legend>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input [(ngModel)]="auction.title" #title="ngForm" ngControl="title" type="text" class="form-control">
+                    <div *ngIf="title.touched && !title.valid" class="alert alert-danger">
+                        Title is required.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="startingBid">Starting Bid</label>
+                    <input [(ngModel)]="auction.startingBid" #startingBid="ngForm" ngControl="startingBid" type="number" placeholder="10.00" class="form-control">
+                    <div *ngIf="startingBid.touched && !startingBid.valid" class="alert alert-danger">
+                        Please type a valid bid.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prodId">Product</label>
+                    <select [(ngModel)]="auction.prodId" ngControl="prodId" #prodId="ngForm" id="prodId" class="form-control" required>
+                        <option *ngFor="let product of products" value="{{ product.id }}">
+                         {{ product.label }}
+                        </option>
+                    </select>
+               </div>
+            </fieldset>
+            <button [disabled]="!form.valid" type="submit" class="btn btn-primary">
+                Start Auction
+            </button>
+        </form>
+    </div>
+</div>

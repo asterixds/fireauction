@@ -1,3 +1,16 @@
-<h1>
-  {{title}}
-</h1>
+<h1>Fire Auctions</h1>
+<div>
+    <span *ngIf="auth">
+      Logged in  as {{auth.auth.providerData[0].displayName}}
+      <nav>
+      <a [routerLink]="['/auctions']">Live Auctions</a>
+      <a [routerLink]="['/newauction']">New Auction</a>
+      <button (click)="logout()">Logout</button>
+     </nav>
+    </span>
+    <span *ngIf="!auth">
+      <button (click)="login()">Login with Google</button>
+      <button (click)="overrideLogin()">Login with Email</button>
+    </span>
+    <router-outlet></router-outlet>
+</div>
